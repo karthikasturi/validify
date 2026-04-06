@@ -23,11 +23,8 @@ Run with:
 ─────────────────────────────────────────────────────────
 """
 
-import pytest
-
 from validify.rules.built_in import NullCheckRule, RangeRule, RegexRule, RuleFactory
 from validify.rules.registry import ValidatorRegistry
-
 
 # ---------------------------------------------------------------------------
 # Test 1 — NullCheckRule passes when field is present

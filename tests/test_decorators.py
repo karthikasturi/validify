@@ -16,10 +16,7 @@ with capsys.readouterr() to assert on printed output.
 -----------------------------------------------------------------------
 """
 
-import pytest
-
 from validify.utils.decorators import log_call, timeit
-
 
 # ---------------------------------------------------------------------------
 # @timeit

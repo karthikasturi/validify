@@ -26,7 +26,6 @@ import pytest
 from validify.core.exceptions import DataLoadError
 from validify.transforms.pipeline import DatasetLoader, normalize_record, pipe
 
-
 # ---------------------------------------------------------------------------
 # pipe()
 # ---------------------------------------------------------------------------
@@ -112,6 +111,5 @@ def test_dataset_loader_closes_file_after_context(tmp_path):
 
 def test_dataset_loader_raises_on_missing_file():
     """DatasetLoader raises DataLoadError when the file does not exist."""
-    with pytest.raises(DataLoadError):
-        with DatasetLoader("/nonexistent/path/to/file.csv"):
-            pass   # pragma: no cover — body never reached
+    with pytest.raises(DataLoadError), DatasetLoader("/nonexistent/path/to/file.csv"):
+        pass   # pragma: no cover — body never reached

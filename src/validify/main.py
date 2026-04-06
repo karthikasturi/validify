@@ -2,43 +2,6 @@
 src/validify/main.py — CLI entry point for the validation pipeline.
 
 ─────────────────────────────────────────────────────────
-DAY 1 TASK (create this file)
-─────────────────────────────────────────────────────────
-Create a runner that produces the same output as starter/validate_trips.py
-but uses the new class hierarchy:
-
-  1. Accept a CSV path from sys.argv[1].
-  2. Open the CSV with open() + csv.DictReader (plain, no context manager yet).
-  3. Instantiate rules manually:
-       rules = [NullCheckRule("vendor_id"), RangeRule("passenger_count", 1, 8), ...]
-  4. For each record, call each rule: result = rule(record)  # __call__
-  5. Collect ValidationResult objects.
-  6. Print a summary (same format as the starter script).
-
-─────────────────────────────────────────────────────────
-DAY 2 TASK (update this file)
-─────────────────────────────────────────────────────────
-  - Apply @timeit to the main validation function.
-  - Build a Report dataclass from the results and print pass_rate from it.
-
-─────────────────────────────────────────────────────────
-DAY 3 TASK (update this file)
-─────────────────────────────────────────────────────────
-  - Replace the hardcoded rules list with:
-      rules = RuleFactory.from_config("config/rules.yaml")
-  - Wrap the CSV open() in DatasetLoader context manager (stretch).
-  - Run records through normalize_record before validation.
-
-─────────────────────────────────────────────────────────
-Run with:
-    python src/validify/main.py data/taxi_trips_sample.csv
-─────────────────────────────────────────────────────────
-"""
-
-"""
-src/validify/main.py — CLI entry point for the validation pipeline.
-
-─────────────────────────────────────────────────────────
 Day 1 implementation notes
 ─────────────────────────────────────────────────────────
 This file produces the same summary output as starter/validate_trips.py,
@@ -76,7 +39,6 @@ from validify.core.models import Report
 from validify.engine.runner import run_sequential
 from validify.rules.built_in import RuleFactory
 from validify.transforms.pipeline import DatasetLoader, normalize_record
-
 
 # Day 3: config path relative to CWD (run from the project root).
 _CONFIG_PATH = "config/rules.yaml"
@@ -135,7 +97,7 @@ def main() -> None:
     print(f"  Pass rate : {report.pass_rate}%")  # @property — no manual calc
 
     if failed_record_details:
-        print(f"\nFirst 5 failing records:")
+        print("\nFirst 5 failing records:")
         for rec_idx, failures in list(failed_record_details.items())[:5]:
             print(f"  Record #{rec_idx}:")
             for r in failures:

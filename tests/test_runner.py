@@ -21,12 +21,9 @@ collected and awaited automatically by pytest-asyncio — no
 -----------------------------------------------------------------------
 """
 
-import pytest
-
 from validify.core.models import ValidationResult
-from validify.engine.runner import run_sequential, run_threaded, run_async
+from validify.engine.runner import run_async, run_sequential, run_threaded
 from validify.rules.built_in import NullCheckRule, RangeRule
-
 
 # ---------------------------------------------------------------------------
 # Shared test data
@@ -68,7 +65,8 @@ def test_run_sequential_first_record_passes_null_check():
 
 def test_run_sequential_detects_range_failure():
     """Row 2 has passenger_count=12 which exceeds max=8."""
-    results = run_sequential(RECORDS[2:], [RangeRule(field="passenger_count", min_val=1, max_val=8)])
+    rule = RangeRule(field="passenger_count", min_val=1, max_val=8)
+    results = run_sequential(RECORDS[2:], [rule])
     assert results[0].passed is False
 
 

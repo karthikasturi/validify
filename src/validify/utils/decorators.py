@@ -2,44 +2,6 @@
 utils/decorators.py — Reusable function decorators.
 
 ─────────────────────────────────────────────────────────
-DAY 2 TASK — Part A (mandatory)
-─────────────────────────────────────────────────────────
-Implement @timeit:
-  - Measures wall-clock time from before to after the function call.
-  - Prints: [timeit] <function_name> took 0.042s
-  - Must preserve the original function's __name__ and __doc__ (use functools.wraps).
-  - Works on synchronous functions first.
-
-Usage:
-    @timeit
-    def run_validation(records, rules):
-        ...
-
-─────────────────────────────────────────────────────────
-DAY 2 TASK — Part B (stretch)
-─────────────────────────────────────────────────────────
-Implement @log_call:
-  - Prints: [log_call] calling <function_name>(<arg1>, kwarg=<value>)
-  - Must use functools.wraps.
-  - Useful for tracing which rules run on which records during debugging.
-
-Usage:
-    @log_call
-    def validate(self, record):
-        ...
-
-─────────────────────────────────────────────────────────
-HINTS
-─────────────────────────────────────────────────────────
-  - Use functools.wraps to preserve the original function's metadata.
-  - Use time.perf_counter() (not time.time()) for accurate elapsed time.
-  - A decorator is just a function that takes a function and returns a function.
-"""
-
-"""
-utils/decorators.py — Reusable function decorators.
-
-─────────────────────────────────────────────────────────
 Day 2 implementation notes
 ─────────────────────────────────────────────────────────
 A decorator is a higher-order function: it takes a function and returns a
@@ -71,12 +33,11 @@ objects (e.g. a 200-row dataset); truncate if needed in production code.
 
 import functools
 import time
-from typing import Any, Callable, TypeVar
+from collections.abc import Callable
+from typing import Any
 
-F = TypeVar("F", bound=Callable[..., Any])
 
-
-def timeit(fn: F) -> F:
+def timeit[F: Callable[..., Any]](fn: F) -> F:
     """Print how long a function call takes.
 
     Output: [timeit] <function_name> took 0.042s
@@ -98,7 +59,7 @@ def timeit(fn: F) -> F:
     return wrapper  # type: ignore[return-value]
 
 
-def log_call(fn: F) -> F:
+def log_call[F: Callable[..., Any]](fn: F) -> F:
     """Print each call to a function with its arguments (stretch).
 
     Output: [log_call] calling <function_name>(<arg1>, kwarg=<value>)

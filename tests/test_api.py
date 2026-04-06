@@ -20,14 +20,13 @@ keep the test fast and assertions simple. The key things to verify:
 -----------------------------------------------------------------------
 """
 
-import io
 import csv
-import pytest
+import io
 
+import pytest
 from fastapi.testclient import TestClient
 
 from validify.api.app import create_app
-
 
 SAMPLE_CSV_ROWS = [
     {

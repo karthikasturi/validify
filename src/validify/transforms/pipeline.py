@@ -41,14 +41,11 @@ DAY 3 TASK — Part B (stretch)
                ...
 """
 
-import csv  # noqa: F401
-from functools import reduce  # noqa: F401
-from typing import Callable, Iterator, TypeVar  # noqa: F401
+import csv
+from collections.abc import Callable, Iterator
+from functools import reduce
 
-from validify.core.exceptions import DataLoadError  # noqa: F401
-
-T = TypeVar("T")
-
+from validify.core.exceptions import DataLoadError
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Day 3 implementation notes
