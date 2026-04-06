@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "feature/**"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      # -----------------------------------------------------------------------
+      # TODO (Day 5): replace each "echo TODO" with the real command
+      # -----------------------------------------------------------------------
+
+      - name: Lint
+        run: ruff check src/ tests/
+
+      - name: Type check
+        run: mypy src/
+
+      - name: Test
+        run: pytest --cov=src/validify --cov-fail-under=70 --cov-report=term-missing
+
+      - name: Build Docker image
+        run: docker build -t validify:ci .

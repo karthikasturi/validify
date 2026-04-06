@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "validify"
+version = "0.1.0"
+description = "Enterprise Data Validation & Processing Service"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.128.0",
+    "uvicorn[standard]>=0.40.0",
+    "pydantic>=2.12.0",
+    "pyyaml>=6.0.3",
+    "structlog>=25.1.0",
+    "python-multipart>=0.0.17",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.26.0",
+    "pytest-cov>=6.1.0",
+    "httpx>=0.28.0",
+    "mypy>=1.15.0",
+    "ruff>=0.11.0",
+    "types-pyyaml>=6.0.12",
+]
+
+# ---------------------------------------------------------------------------
+# Tool configuration — single source of truth, no separate config files needed
+# ---------------------------------------------------------------------------
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["src/validify"]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true

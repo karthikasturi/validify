@@ -1,0 +1,92 @@
+# rules.yaml — declarative validation rule definitions for Validify.
+#
+# Each entry describes one rule to apply during validation.
+# The "type" field must exactly match the snake_case name that ValidatorRegistry
+# assigns to each validator class via __init_subclass__.
+#
+#   Class name          Registered as
+#   ──────────────────  ────────────────────
+#   NullCheckRule    →  null_check_rule
+#   RangeRule        →  range_rule
+#   CoordinateRule   →  coordinate_rule
+#   DateFormatRule   →  date_format_rule
+#   RegexRule        →  regex_rule
+#
+# You implement RuleFactory.from_config() on Day 3 to parse this file.
+# Adding a new rule = new entry here + matching class in built_in.py.
+
+rules:
+  - name: vendor_id_not_null
+    type: null_check_rule
+    field: vendor_id
+
+  - name: pickup_datetime_not_null
+    type: null_check_rule
+    field: pickup_datetime
+
+  - name: dropoff_datetime_not_null
+    type: null_check_rule
+    field: dropoff_datetime
+
+  - name: pickup_datetime_format
+    type: date_format_rule
+    field: pickup_datetime
+    fmt: "%Y-%m-%d %H:%M:%S"
+
+  - name: dropoff_datetime_format
+    type: date_format_rule
+    field: dropoff_datetime
+    fmt: "%Y-%m-%d %H:%M:%S"
+
+  - name: passenger_count_range
+    type: range_rule
+    field: passenger_count
+    min: 1
+    max: 8
+
+  - name: trip_distance_range
+    type: range_rule
+    field: trip_distance
+    min: 0.1
+    max: 200.0
+
+  - name: fare_amount_range
+    type: range_rule
+    field: fare_amount
+    min: 0.01
+    max: 500.0
+
+  - name: total_amount_range
+    type: range_rule
+    field: total_amount
+    min: 0.01
+    max: 600.0
+
+  - name: pickup_lat_coordinate
+    type: coordinate_rule
+    field: pickup_lat
+    min: 40.0
+    max: 42.0
+
+  - name: pickup_lon_coordinate
+    type: coordinate_rule
+    field: pickup_lon
+    min: -75.0
+    max: -72.0
+
+  - name: dropoff_lat_coordinate
+    type: coordinate_rule
+    field: dropoff_lat
+    min: 40.0
+    max: 42.0
+
+  - name: dropoff_lon_coordinate
+    type: coordinate_rule
+    field: dropoff_lon
+    min: -75.0
+    max: -72.0
+
+  - name: payment_type_valid
+    type: regex_rule
+    field: payment_type
+    pattern: "^(Credit|Cash|No Charge|Dispute)$"

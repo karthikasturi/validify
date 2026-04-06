@@ -1,0 +1,5 @@
+# Copy the sample dataset here:
+#   cp ../../../labforge-infra/datasets/taxi_trips_sample.csv .
+#   (or) cp ../starter/taxi_trips_sample.csv .
+#
+# This directory is intentionally excluded from version control (.gitignore).

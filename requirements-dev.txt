@@ -1,0 +1,11 @@
+# Development dependencies for Validify
+# Install with: pip install -r requirements-dev.txt
+# (also install requirements.txt first)
+
+pytest>=8.3.0
+pytest-asyncio>=0.26.0
+pytest-cov>=6.1.0
+httpx>=0.28.0
+mypy>=1.15.0
+ruff>=0.11.0
+types-pyyaml>=6.0.12

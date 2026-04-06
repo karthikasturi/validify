@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tool caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# Logs and runtime data
+*.log
+data/uploads/
+data/reports/
+# Do NOT exclude data/taxi_trips_sample.csv — it is tracked in the repo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
