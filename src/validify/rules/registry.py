@@ -1,3 +1,5 @@
+import re
+
 """
 rules/registry.py — Auto-registration plugin system for validators.
 
@@ -67,8 +69,6 @@ CamelCase → snake_case — how the regex works:
   "NullCheckRule" → "Null_Check_Rule" → "null_check_rule"
 ─────────────────────────────────────────────────────────
 """
-
-import re
 
 
 class ValidatorRegistry:
