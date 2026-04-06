@@ -35,7 +35,7 @@ Run with:
 import sys
 from pathlib import Path
 
-from validify.core.models import Report
+from validify.core.models import Report, ValidationResult
 from validify.engine.runner import run_sequential
 from validify.rules.built_in import RuleFactory
 from validify.transforms.pipeline import DatasetLoader, normalize_record
@@ -71,7 +71,7 @@ def main() -> None:
     n_rules = len(rules)
     records_passed = 0
     records_failed = 0
-    failed_record_details: dict[int, list] = {}
+    failed_record_details: dict[int, list[ValidationResult]] = {}
 
     for i in range(record_count):
         chunk = results[i * n_rules: (i + 1) * n_rules]

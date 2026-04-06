@@ -34,6 +34,7 @@ Run with:
 import csv
 import io
 import uuid
+from typing import Any
 
 from fastapi import FastAPI, HTTPException, UploadFile
 
@@ -45,7 +46,7 @@ from validify.transforms.pipeline import normalize_record
 _CONFIG_PATH = "config/rules.yaml"
 
 # In-memory report store: {run_id: Report}
-REPORTS: dict = {}
+REPORTS: dict[str, Report] = {}
 
 
 def create_app() -> FastAPI:
@@ -56,12 +57,12 @@ def create_app() -> FastAPI:
     )
 
     @app.get("/health")
-    def health() -> dict:
+    def health() -> dict[str, str]:
         """Liveness check — returns immediately with no dependencies."""
         return {"status": "ok", "version": "0.1.0"}
 
     @app.post("/validate")
-    async def validate(file: UploadFile) -> dict:
+    async def validate(file: UploadFile) -> dict[str, Any]:
         """Accept a CSV upload, run validation, store the report, return summary."""
         content = (await file.read()).decode("utf-8")
         reader = csv.DictReader(io.StringIO(content))
@@ -99,7 +100,7 @@ def create_app() -> FastAPI:
         }
 
     @app.get("/reports/{run_id}")
-    def get_report(run_id: str) -> dict:
+    def get_report(run_id: str) -> dict[str, Any]:
         """Return the stored report summary for a previous validation run."""
         if run_id not in REPORTS:
             raise HTTPException(

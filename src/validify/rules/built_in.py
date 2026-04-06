@@ -36,6 +36,7 @@ PATTERN: message is a @property
 
 import re
 from datetime import datetime
+from typing import Any
 
 import yaml
 
@@ -61,7 +62,7 @@ class NullCheckRule(BaseValidator):
         self.field = field
         self._message = ""
 
-    def validate(self, record: dict) -> bool:
+    def validate(self, record: dict[str, Any]) -> bool:
         value = record.get(self.field)
         if value is None or str(value).strip() == "":
             self._message = f"{self.field!r} is null or empty"
@@ -88,7 +89,7 @@ class RangeRule(BaseValidator):
         self.max_val = max_val
         self._message = ""
 
-    def validate(self, record: dict) -> bool:
+    def validate(self, record: dict[str, Any]) -> bool:
         raw = record.get(self.field)
         if raw is None or str(raw).strip() == "":
             self._message = f"{self.field!r} is missing"
@@ -126,7 +127,7 @@ class CoordinateRule(BaseValidator):
         self.max_val = max_val
         self._message = ""
 
-    def validate(self, record: dict) -> bool:
+    def validate(self, record: dict[str, Any]) -> bool:
         raw = record.get(self.field)
         if raw is None or str(raw).strip() == "":
             self._message = f"{self.field!r} coordinate is missing"
@@ -169,7 +170,7 @@ class DateFormatRule(BaseValidator):
         self.fmt = fmt
         self._message = ""
 
-    def validate(self, record: dict) -> bool:
+    def validate(self, record: dict[str, Any]) -> bool:
         raw = record.get(self.field)
         if raw is None or str(raw).strip() == "":
             self._message = f"{self.field!r} is missing"
@@ -208,7 +209,7 @@ class RegexRule(BaseValidator):
         self._compiled = re.compile(pattern)
         self._message = ""
 
-    def validate(self, record: dict) -> bool:
+    def validate(self, record: dict[str, Any]) -> bool:
         raw = record.get(self.field)
         if raw is None or str(raw).strip() == "":
             self._message = f"{self.field!r} is missing"

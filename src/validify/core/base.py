@@ -70,6 +70,7 @@ Design notes
 """
 
 from abc import ABC, abstractmethod
+from typing import Any
 
 from validify.core.models import ValidationResult
 from validify.rules.registry import ValidatorRegistry
@@ -88,10 +89,12 @@ class BaseValidator(ValidatorRegistry, ABC):
     Subclasses MUST set self.field in __init__.
     """
 
+    field: str  # must be assigned in each concrete subclass __init__
+
     # ── abstract interface ────────────────────────────────────────────────
 
     @abstractmethod
-    def validate(self, record: dict) -> bool:
+    def validate(self, record: dict[str, Any]) -> bool:
         """Return True if the record's field passes this rule, False otherwise."""
 
     @property
@@ -110,7 +113,7 @@ class BaseValidator(ValidatorRegistry, ABC):
 
     # ── concrete behaviour ────────────────────────────────────────────────
 
-    def __call__(self, record: dict) -> ValidationResult:
+    def __call__(self, record: dict[str, Any]) -> ValidationResult:
         """Run this rule against one record and return a ValidationResult.
 
         This is the Template Method pattern: the base class defines the

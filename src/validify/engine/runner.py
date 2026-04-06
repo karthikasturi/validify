@@ -36,6 +36,7 @@ demonstrates the async/await pattern and asyncio.gather.
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
+from typing import Any
 
 from validify.core.base import BaseValidator
 from validify.core.models import ValidationResult
@@ -44,7 +45,7 @@ from validify.utils.decorators import timeit
 
 @timeit
 def run_sequential(
-    records: list[dict], rules: list[BaseValidator]
+    records: list[dict[str, Any]], rules: list[BaseValidator]
 ) -> list[ValidationResult]:
     """Validate every record against every rule in a single thread.
 
@@ -61,7 +62,7 @@ def run_sequential(
 
 @timeit
 def run_threaded(
-    records: list[dict],
+    records: list[dict[str, Any]],
     rules: list[BaseValidator],
     workers: int = 4,
 ) -> list[ValidationResult]:
@@ -78,7 +79,7 @@ def run_threaded(
     results: list[ValidationResult] = []
     lock = Lock()
 
-    def _validate_one(record: dict) -> None:
+    def _validate_one(record: dict[str, Any]) -> None:
         local = [rule(record) for rule in rules]
         with lock:
             results.extend(local)
@@ -90,7 +91,7 @@ def run_threaded(
 
 
 async def run_async(
-    records: list[dict], rules: list[BaseValidator]
+    records: list[dict[str, Any]], rules: list[BaseValidator]
 ) -> list[ValidationResult]:
     """Validate records concurrently using asyncio (stretch — Day 4).
 
@@ -105,7 +106,7 @@ async def run_async(
         results = asyncio.run(run_async(records, rules))
     """
 
-    async def _validate_one(record: dict) -> list[ValidationResult]:
+    async def _validate_one(record: dict[str, Any]) -> list[ValidationResult]:
         return [rule(record) for rule in rules]
 
     nested = await asyncio.gather(*[_validate_one(r) for r in records])

@@ -44,6 +44,7 @@ DAY 3 TASK — Part B (stretch)
 import csv
 from collections.abc import Callable, Iterator
 from functools import reduce
+from typing import IO, Any
 
 from validify.core.exceptions import DataLoadError
 
@@ -65,7 +66,7 @@ from validify.core.exceptions import DataLoadError
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-def pipe(*fns: Callable) -> Callable:
+def pipe(*fns: Callable[..., Any]) -> Callable[..., Any]:
     """Return a function that applies *fns left to right to a single value.
 
     pipe(f, g, h)(x)  ==  h(g(f(x)))
@@ -81,10 +82,10 @@ def pipe(*fns: Callable) -> Callable:
         )
         cleaned_record = clean(raw_record)
     """
-    return reduce(lambda acc, fn: lambda x: fn(acc(x)), fns)
+    return reduce(lambda acc, fn: (lambda x: fn(acc(x))), fns)
 
 
-def normalize_record(record: dict) -> dict:
+def normalize_record(record: dict[str, Any]) -> dict[str, Any]:
     """Return a copy of record with all string values stripped of whitespace.
 
     CSV cells often carry leading/trailing spaces from export tools. Stripping
@@ -112,9 +113,9 @@ class DatasetLoader:
 
     def __init__(self, path: str) -> None:
         self.path = path
-        self._file = None
+        self._file: IO[str] | None = None
 
-    def __enter__(self) -> Iterator[dict]:
+    def __enter__(self) -> Iterator[dict[str, Any]]:
         try:
             self._file = open(self.path, newline="", encoding="utf-8")
         except FileNotFoundError as exc:
